@@ -37,10 +37,10 @@ public class Bullet : MonoBehaviour
     void HitTarget()
     {
         // Call the target's TakeDamage method to deal damage
-        Trooper Trooper = target.GetComponent<Trooper>();
-        if (Trooper != null)
+        Unit unit = target.GetComponent<Unit>();
+        if (unit != null)
         {
-            Trooper.TakeDamage(damage);  // Deal damage to the enemy
+            unit.TakeDamage(damage);  // Deal damage to the enemy
         }
 
         Destroy(gameObject);  // Destroy the bullet upon hitting the target
