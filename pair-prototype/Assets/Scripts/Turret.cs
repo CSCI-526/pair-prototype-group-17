@@ -2,20 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Trooper : Unit
+public class Turret : MonoBehaviour
 {
-    public float moveSpeed = 3f;
     [SerializeField] protected GameObject bulletPrefab; 
     [SerializeField] protected Transform firePoint;     
     public float fireRate = 0.3f;     
-    public float range = 5f;        
-    public float fireCountdown = 0.2f;                 
+    public float range = 5f;
+    public float fireCountdown = 0.2f;
     protected Transform target = null;
-    public abstract void Move();
-    
+
     public void Update()
     {
-        if (!ShootIfReady()) Move();  // if shooting, stand still; otherwise move
+        ShootIfReady();
     }
 
     public void FindTarget() 
@@ -27,7 +25,7 @@ public abstract class Trooper : Unit
         foreach (Collider2D hit in hits) 
         {
             Unit targetUnit = hit.GetComponent<Unit>();
-            if (targetUnit != null && targetUnit.isFriendly != this.isFriendly) 
+            if (targetUnit != null && !targetUnit.isFriendly) 
             {
                 float distanceToEnemy = Vector2.Distance(transform.position, hit.transform.position);
                 if (distanceToEnemy < shortestDistance) 
@@ -55,6 +53,7 @@ public abstract class Trooper : Unit
     {
         if (target != null) 
         {
+            TurnTowardsTarget();
             if (fireCountdown <= 0f) 
             {
                 Shoot();
@@ -62,12 +61,20 @@ public abstract class Trooper : Unit
             }
             fireCountdown -= Time.deltaTime;
             return true;
-        } 
+        }
         else 
         {
             FindTarget();
             return false;
         }
+    }
+
+    private void TurnTowardsTarget()
+    {
+        Vector2 direction = target.position - transform.position;
+        // for some reasons it needs a 90 degree offset
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;  
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
     }
 
     private void OnDrawGizmosSelected() 
