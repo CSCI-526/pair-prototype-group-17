@@ -334,6 +334,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7733092360148992874, guid: 8e552356797364717a87ba270b69240f, type: 3}
+      propertyPath: lootType
+      value: 
+      objectReference: {fileID: 6502423737727779569, guid: a1791e8ba55424f59bcb8f60acaf825d, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1132,6 +1136,7 @@ GameObject:
   - component: {fileID: 2087402430}
   - component: {fileID: 2087402432}
   - component: {fileID: 2087402433}
+  - component: {fileID: 2087402434}
   m_Layer: 0
   m_Name: HomeBase
   m_TagString: Untagged
@@ -1237,7 +1242,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -1267,6 +1272,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHp: 500
   isFriendly: 1
+--- !u!50 &2087402434
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2087402429}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1001 &898935423419631345
 PrefabInstance:
   m_ObjectHideFlags: 0

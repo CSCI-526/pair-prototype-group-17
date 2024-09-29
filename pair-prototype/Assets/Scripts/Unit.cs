@@ -8,7 +8,7 @@ public class Unit : MonoBehaviour
     protected int hp;  // current health point
     public bool isFriendly = true;
 
-    public void Start() {
+    public virtual void Start() {
         hp = maxHp;
     }
     public void TakeDamage(int damage) {
@@ -16,7 +16,7 @@ public class Unit : MonoBehaviour
         if (hp <= 0) Die();  // Die if healthpoint is <= 0
     }
 
-    public void Die() {
+    public virtual void Die() {
         Destroy(gameObject);
     }
 }

@@ -33,6 +33,12 @@ public class PlayerKeypressSpawner : MonoBehaviour
         }
     }
 
+    public void AddGear(int amount) 
+    {
+        gearCount += amount;
+        UpdateGearUI();
+    }
+
     // Spawn a unit with X-axis aligned to the mouse's X position 
     // and Y aligned to the top of the object this script is attached to
     void SpawnUnitAtMouseX()
