@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class GaussianAutoSpawner : MonoBehaviour
 {
@@ -14,6 +15,10 @@ public class GaussianAutoSpawner : MonoBehaviour
     public float varianceY = 0f;
     private Rect spawnArea;
     private float spawnInterval;
+    private int numCol = 12;
+    [SerializeField] private Tile _tilePrefab;
+    private float tileSize;
+    float[] coords;
 
 
     public void Initialize(
@@ -33,6 +38,9 @@ public class GaussianAutoSpawner : MonoBehaviour
 
     void Start()
     {
+        tileSize = _tilePrefab.GetSpriteDimensions().x;
+        coords = new float[numCol];
+        ColumnXCoordinates();
         spawnArea = new Rect(transform.position.x - transform.localScale.x / 2,
                              transform.position.y - transform.localScale.y / 2,
                              transform.localScale.x, transform.localScale.y);
@@ -50,17 +58,40 @@ public class GaussianAutoSpawner : MonoBehaviour
         }
     }
 
+    // Find all x coordinates of all columns;
+    void ColumnXCoordinates(){
+        GameObject obj = GameObject.Find("Background (0)"); // Get background
+        float backgroundWidth = obj.GetComponent<SpriteRenderer>().bounds.size.x;  // Get background's x-coordinate
+        float tileSize = _tilePrefab.GetSpriteDimensions().x; // Get tile's size
+
+        float xCoord = 0 - (backgroundWidth /2 + tileSize/2);
+        for (int x = 0; x < numCol; x++) {
+            coords[x] = xCoord;
+            xCoord += tileSize;
+            print(coords[x]);
+        }
+    }
 
     void SpawnObject()
     {
         float spawnX = GaussianRandom(meanX, varianceX);
         float spawnY = GaussianRandom(meanY, varianceY);
-
         spawnX = Mathf.Clamp(spawnX, spawnArea.xMin, spawnArea.xMax);
         spawnY = Mathf.Clamp(spawnY, spawnArea.yMin, spawnArea.yMax);
 
-        Vector3 spawnPosition = new Vector2(spawnX, spawnY);
+        // Find which column is the closest to the randomized x coordinate
+        float nearestCol = FindNearestCol(spawnX);
+
+        // Vector3 spawnPosition = new Vector2(spawnX, spawnY);
+        Vector3 spawnPosition = new Vector2(nearestCol, spawnY); // move enemy to the closest column
         Instantiate(spawnedUnit, spawnPosition, Quaternion.identity);
+    }
+
+    //Find the column that is closet to a given x-coord
+    float FindNearestCol(float spawnX)
+    {
+        float nearestX = coords.OrderBy(n => Mathf.Abs(n - spawnX)).First();
+        return nearestX;
     }
 
 

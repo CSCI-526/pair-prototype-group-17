@@ -25,7 +25,8 @@ public class PlayerKeypressSpawner : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && isReadyToSpawn) {
             if (gearCount >= gearCostPerSpawn) {
-                SpawnUnitAtMouseX();
+                // SpawnUnitAtMouseX();
+                SpawnUnitAtHoveredTile();
                 isReadyToSpawn = false; 
             } else {
                 Debug.Log("Not enough gears to spawn a unit!");
@@ -41,7 +42,8 @@ public class PlayerKeypressSpawner : MonoBehaviour
 
     // Spawn a unit with X-axis aligned to the mouse's X position 
     // and Y aligned to the top of the object this script is attached to
-    void SpawnUnitAtMouseX()
+    // void SpawnUnitAtMouseX()
+    void SpawnUnitAtHoveredTile()
     {
         if (mainCamera == null) {
             Debug.LogError("Main camera not found!");
@@ -51,18 +53,31 @@ public class PlayerKeypressSpawner : MonoBehaviour
         Vector3 mousePosition = Input.mousePosition;  // Unity always returns Vector3 for mouse position
         Vector3 worldMousePosition = mainCamera.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, mainCamera.nearClipPlane));
 
+        // Raycast to check if there's a Tile under the mouse
+        RaycastHit2D hit = Physics2D.Raycast(worldMousePosition, Vector2.zero);
+
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer == null) {
             Debug.LogError("No SpriteRenderer found on this GameObject!");
             return;
         }
-        float topY = transform.position.y + (spriteRenderer.bounds.size.y / 2);
-
-        Vector2 spawnPosition = new Vector2(worldMousePosition.x, topY);  // X from mouse and Y from top of the GameObject
-        Instantiate(unitPrefab, spawnPosition, Quaternion.identity);
-        gearCount -= gearCostPerSpawn;
-        UpdateGearUI();
+        // float topY = transform.position.y + (spriteRenderer.bounds.size.y / 2);
+        // Vector2 spawnPosition = new Vector2(worldMousePosition.x, topY);  // X from mouse and Y from top of the GameObject
+        // Vector2 spawnPosition = new Vector2(worldMousePosition.x, worldMousePosition.y);
+        // Instantiate(unitPrefab, spawnPosition, Quaternion.identity);
+        // gearCount -= gearCostPerSpawn;
+        // UpdateGearUI();
+        
+        Tile hoveredTile = hit.collider.GetComponent<Tile>();
+        if (hoveredTile != null && hoveredTile.IsMouseOver()) {
+            Vector2 spawnPosition = hoveredTile.GetCenterPosition();
+            // print(spawnPosition);
+            Instantiate(unitPrefab, spawnPosition, Quaternion.identity);
+            gearCount -= gearCostPerSpawn;
+            UpdateGearUI();
+        }
     }
+
 
     void UpdateGearUI()
     {
