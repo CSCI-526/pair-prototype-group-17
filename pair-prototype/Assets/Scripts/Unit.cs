@@ -5,7 +5,7 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     public int maxHp = 100;  // maximum health point
-    protected int hp;  // current health point
+    public int hp;  // current health point
     public bool isFriendly = true;
 
     public virtual void Start() {
@@ -18,5 +18,9 @@ public class Unit : MonoBehaviour
 
     public virtual void Die() {
         Destroy(gameObject);
+    }
+
+    public void boostHealth(int HpValue) {
+        hp += HpValue;
     }
 }

@@ -12,7 +12,6 @@ public abstract class Trooper : Unit
     public float fireCountdown = 0.2f;                 
     protected Transform target = null;
     public abstract void Move();
-    
     public void Update()
     {
         if (!ShootIfReady()) Move();  // if shooting, stand still; otherwise move

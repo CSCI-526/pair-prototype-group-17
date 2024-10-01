@@ -5,16 +5,22 @@ public class PlayerKeypressSpawner : MonoBehaviour
 {
     public GameObject unitPrefab;
     public Text gearText;
-    public int gearCount = 100;
-    public int gearCostPerSpawn = 10;
+    // public int gearCount = 100;
+    // public int gearCostPerSpawn = 10;
+    public int gearCount;
+    public int gearCostPerSpawn;
 
     private Camera mainCamera;  // Can't spawn outside this camera
     private bool isReadyToSpawn = false;
+    private Gears gears;
 
     void Start()
     {
+        gears = GameObject.Find("GearCountUI").GetComponent<Gears>();
+        gearCostPerSpawn = gears.getGearCostPerSpawn();
         mainCamera = Camera.main;
-        UpdateGearUI();                
+        gears.UpdateGearUI(); 
+        // UpdateGearUI();                
     }
 
     void Update()
@@ -24,7 +30,8 @@ public class PlayerKeypressSpawner : MonoBehaviour
         }
 
         if (Input.GetMouseButtonDown(0) && isReadyToSpawn) {
-            if (gearCount >= gearCostPerSpawn) {
+            // if (gearCount >= gearCostPerSpawn) {
+            if (gears.getGearCount() >= gearCostPerSpawn) {
                 // SpawnUnitAtMouseX();
                 SpawnUnitAtHoveredTile();
                 isReadyToSpawn = false; 
@@ -34,11 +41,12 @@ public class PlayerKeypressSpawner : MonoBehaviour
         }
     }
 
-    public void AddGear(int amount) 
-    {
-        gearCount += amount;
-        UpdateGearUI();
-    }
+    // public void AddGear(int amount) 
+    // {
+    //     gearCount += amount;
+    //     gears.UpdateGearUI();
+    //     // UpdateGearUI();
+    // }
 
     // Spawn a unit with X-axis aligned to the mouse's X position 
     // and Y aligned to the top of the object this script is attached to
@@ -73,16 +81,18 @@ public class PlayerKeypressSpawner : MonoBehaviour
             Vector2 spawnPosition = hoveredTile.GetCenterPosition();
             // print(spawnPosition);
             Instantiate(unitPrefab, spawnPosition, Quaternion.identity);
-            gearCount -= gearCostPerSpawn;
-            UpdateGearUI();
+            // gearCount -= gearCostPerSpawn;
+            // UpdateGearUI();
+            gears.UpdateGearCount(-gearCostPerSpawn);
+            gears.UpdateGearUI();
         }
     }
 
 
-    void UpdateGearUI()
-    {
-        if (gearText != null) {
-            gearText.text = "Gears: " + gearCount.ToString();
-        }
-    }
+    // void UpdateGearUI()
+    // {
+    //     if (gearText != null) {
+    //         gearText.text = "Gears: " + gearCount.ToString();
+    //     }
+    // }
 }

@@ -421,6 +421,7 @@ GameObject:
   - component: {fileID: 959535599}
   - component: {fileID: 959535598}
   - component: {fileID: 959535597}
+  - component: {fileID: 959535603}
   m_Layer: 5
   m_Name: GearCountUI
   m_TagString: Untagged
@@ -552,6 +553,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &959535603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 959535596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40a73f0836abe4f02a993b924255707e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gearCount: 100
+  gearCostPerSpawn: 10
 --- !u!1 &965219905
 GameObject:
   m_ObjectHideFlags: 0
@@ -1023,6 +1038,10 @@ PrefabInstance:
       value: Friendly
       objectReference: {fileID: 0}
     - target: {fileID: 7002805262097426702, guid: 2d0d7dffa7b3f4e30b63e83222200385, type: 3}
+      propertyPath: text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7002805262097426702, guid: 2d0d7dffa7b3f4e30b63e83222200385, type: 3}
       propertyPath: maxHp
       value: 15
       objectReference: {fileID: 0}
@@ -1065,6 +1084,18 @@ PrefabInstance:
     - target: {fileID: 7168749577140336839, guid: 2d0d7dffa7b3f4e30b63e83222200385, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860022922969538759, guid: 2d0d7dffa7b3f4e30b63e83222200385, type: 3}
+      propertyPath: m_Radius
+      value: 0.13468203
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860022922969538759, guid: 2d0d7dffa7b3f4e30b63e83222200385, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.002351904
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860022922969538759, guid: 2d0d7dffa7b3f4e30b63e83222200385, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.0052917483
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1391,6 +1422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHp: 500
+  hp: 0
   isFriendly: 1
 --- !u!50 &2087402434
 Rigidbody2D:

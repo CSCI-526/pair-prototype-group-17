@@ -68,7 +68,6 @@ public class GaussianAutoSpawner : MonoBehaviour
         for (int x = 0; x < numCol; x++) {
             coords[x] = xCoord;
             xCoord += tileSize;
-            print(coords[x]);
         }
     }
 
