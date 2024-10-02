@@ -23,4 +23,8 @@ public class Unit : MonoBehaviour
     public void boostHealth(int HpValue) {
         hp += HpValue;
     }
+
+    public void updateMaxHp(int value){
+        maxHp += value;
+    }
 }

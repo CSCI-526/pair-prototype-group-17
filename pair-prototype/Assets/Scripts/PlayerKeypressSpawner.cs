@@ -3,24 +3,33 @@ using UnityEngine.UI;
 
 public class PlayerKeypressSpawner : MonoBehaviour
 {
-    public GameObject unitPrefab;
-    public Text gearText;
-    // public int gearCount = 100;
-    // public int gearCostPerSpawn = 10;
-    public int gearCount;
-    public int gearCostPerSpawn;
+    private GameObject unitPrefab;
+    private int gearCostPerSpawn;
 
     private Camera mainCamera;  // Can't spawn outside this camera
     private bool isReadyToSpawn = false;
     private Gears gears;
+    [SerializeField] private Button UpgradeButton1;
+    [SerializeField] private Button UpgradeButton2;
+    // [SerializeField] private Button UpgradeButton3;
+    [SerializeField] private Button UpgradeButton4;
+    public string lastPressedButton = "";
+    public Text updateMessage;
+    private GameObject prefabInstance; 
+    private bool firstSpawn = true;
 
     void Start()
     {
+        UpgradeButton1.onClick.AddListener(() => ButtonPressed("UpgradeButton1"));
+        UpgradeButton2.onClick.AddListener(() => ButtonPressed("UpgradeButton2"));
+        // UpgradeButton3.onClick.AddListener(() => ButtonPressed("UpgradeButton3"));
+        UpgradeButton4.onClick.AddListener(() => ButtonPressed("UpgradeButton4"));
+
+        unitPrefab = Resources.Load<GameObject>("Prefabs/FriendlyPrefab");
         gears = GameObject.Find("GearCountUI").GetComponent<Gears>();
         gearCostPerSpawn = gears.getGearCostPerSpawn();
         mainCamera = Camera.main;
         gears.UpdateGearUI(); 
-        // UpdateGearUI();                
     }
 
     void Update()
@@ -30,9 +39,8 @@ public class PlayerKeypressSpawner : MonoBehaviour
         }
 
         if (Input.GetMouseButtonDown(0) && isReadyToSpawn) {
-            // if (gearCount >= gearCostPerSpawn) {
             if (gears.getGearCount() >= gearCostPerSpawn) {
-                // SpawnUnitAtMouseX();
+                
                 SpawnUnitAtHoveredTile();
                 isReadyToSpawn = false; 
             } else {
@@ -41,18 +49,48 @@ public class PlayerKeypressSpawner : MonoBehaviour
         }
     }
 
-    // public void AddGear(int amount) 
-    // {
-    //     gearCount += amount;
-    //     gears.UpdateGearUI();
-    //     // UpdateGearUI();
-    // }
+    public void ButtonPressed(string buttonName)
+    {
+        lastPressedButton = buttonName;
+        Debug.Log("Last pressed button: " + lastPressedButton);
 
-    // Spawn a unit with X-axis aligned to the mouse's X position 
-    // and Y aligned to the top of the object this script is attached to
-    // void SpawnUnitAtMouseX()
+        // Create a new GameObject (a copy of the prefab) without adding it to the scene yet
+        prefabInstance = Instantiate(unitPrefab);
+        FriendlyTrooper trooper = prefabInstance.GetComponent<FriendlyTrooper>();
+        switch (lastPressedButton)
+        {
+            case "UpgradeButton1":
+                // unitPrefab = Resources.Load<GameObject>("Prefabs/FriendlyPrefab");
+                trooper.updateRange(2); 
+                updateMessage.text = "Range +2";
+                break;
+            case "UpgradeButton2":
+                trooper.updateSpeed(1); 
+                updateMessage.text = "Speed +1";
+                break;
+            // case "UpgradeButton3":
+            //     break;
+            case "UpgradeButton4":
+                trooper.updateMaxHp(10);
+                updateMessage.text = "Hp +10";
+                break;
+            default:
+                Debug.LogError("Unknown button pressed");
+                break;
+        }
+        unitPrefab = prefabInstance;
+        prefabInstance.SetActive(false);
+        firstSpawn = false;
+    }
+
+    public string GetLastPressedButton()
+    {
+        return lastPressedButton;
+    }
+
     void SpawnUnitAtHoveredTile()
     {
+        print("spawning");
         if (mainCamera == null) {
             Debug.LogError("Main camera not found!");
             return;
@@ -69,30 +107,20 @@ public class PlayerKeypressSpawner : MonoBehaviour
             Debug.LogError("No SpriteRenderer found on this GameObject!");
             return;
         }
-        // float topY = transform.position.y + (spriteRenderer.bounds.size.y / 2);
-        // Vector2 spawnPosition = new Vector2(worldMousePosition.x, topY);  // X from mouse and Y from top of the GameObject
-        // Vector2 spawnPosition = new Vector2(worldMousePosition.x, worldMousePosition.y);
-        // Instantiate(unitPrefab, spawnPosition, Quaternion.identity);
-        // gearCount -= gearCostPerSpawn;
-        // UpdateGearUI();
         
         Tile hoveredTile = hit.collider.GetComponent<Tile>();
         if (hoveredTile != null && hoveredTile.IsMouseOver()) {
             Vector2 spawnPosition = hoveredTile.GetCenterPosition();
-            // print(spawnPosition);
-            Instantiate(unitPrefab, spawnPosition, Quaternion.identity);
-            // gearCount -= gearCostPerSpawn;
-            // UpdateGearUI();
+            if (firstSpawn){
+                Instantiate(unitPrefab, spawnPosition, Quaternion.identity);
+            }else{
+                GameObject newSpawn = Instantiate(prefabInstance, spawnPosition, Quaternion.identity);
+                newSpawn.SetActive(true);
+                updateMessage.text = "";
+            }
+            
             gears.UpdateGearCount(-gearCostPerSpawn);
             gears.UpdateGearUI();
         }
     }
-
-
-    // void UpdateGearUI()
-    // {
-    //     if (gearText != null) {
-    //         gearText.text = "Gears: " + gearCount.ToString();
-    //     }
-    // }
 }

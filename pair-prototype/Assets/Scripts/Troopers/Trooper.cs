@@ -17,6 +17,13 @@ public abstract class Trooper : Unit
         if (!ShootIfReady()) Move();  // if shooting, stand still; otherwise move
     }
 
+    public void updateRange(int value){
+        range += value;
+    }
+    public void updateSpeed(int value){
+        moveSpeed += value;
+    }
+
     public void FindTarget() 
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, range);

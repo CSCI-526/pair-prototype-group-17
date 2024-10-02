@@ -16,7 +16,7 @@ public class FriendlyTrooper : Trooper
 
     public void OnMouseDown()
     {
-        // Upgrade defenders (by changing their color for now))
+        // Upgrade defenders (by changing their color for now)
         SpriteRenderer sprite = GetComponent<SpriteRenderer>();
         boostHealth(healthBoostValue);
         sprite.color = Color.yellow;
