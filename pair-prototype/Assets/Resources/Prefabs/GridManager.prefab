@@ -48,3 +48,6 @@ MonoBehaviour:
   _height: 5
   _tilePrefab: {fileID: 4968513741188460632, guid: a13facdc99c34470089347343e86a527, type: 3}
   _cam: {fileID: 0}
+  grid: {fileID: 0}
+  background: {fileID: 0}
+  homeBase: {fileID: 0}

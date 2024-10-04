@@ -11,7 +11,7 @@ public class HomeBase : Unit
     {
         base.Start();
         spawner = GetComponentInChildren<PlayerKeypressSpawner>();
-        gears = GameObject.Find("GearCountUI").GetComponent<Gears>();
+        gears = GameObject.Find("GearCountText").GetComponent<Gears>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)

@@ -16,7 +16,6 @@ public class GridManager : MonoBehaviour {
     private int _currentHeight = 0;
  
     void Start() {
-        
         _tiles = new Dictionary<Vector2, Tile>();
         for (int y = 0; y < _height; y++) {
             GenerateRow(y);

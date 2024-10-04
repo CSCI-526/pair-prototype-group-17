@@ -26,7 +26,7 @@ public class PlayerKeypressSpawner : MonoBehaviour
         UpgradeButton4.onClick.AddListener(() => ButtonPressed("UpgradeButton4"));
 
         unitPrefab = Resources.Load<GameObject>("Prefabs/FriendlyPrefab");
-        gears = GameObject.Find("GearCountUI").GetComponent<Gears>();
+        gears = GameObject.Find("GearCountText").GetComponent<Gears>();
         gearCostPerSpawn = gears.getGearCostPerSpawn();
         mainCamera = Camera.main;
         gears.UpdateGearUI(); 
@@ -34,18 +34,49 @@ public class PlayerKeypressSpawner : MonoBehaviour
 
     void Update()
     {
+        // For PC: Detect pressing 'Q'
         if (Input.GetKeyDown(KeyCode.Q)) {
             isReadyToSpawn = true;
         }
 
-        if (Input.GetMouseButtonDown(0) && isReadyToSpawn) {
-            if (gears.getGearCount() >= gearCostPerSpawn) {
-                
-                SpawnUnitAtHoveredTile();
-                isReadyToSpawn = false; 
-            } else {
-                Debug.Log("Not enough gears to spawn a unit!");
+        // For Mobile: Detect touch input
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began)
+            {
+                isReadyToSpawn = true;
             }
+        }
+
+        // For PC: Detect left mouse click
+        if (Input.GetMouseButtonDown(0) && isReadyToSpawn) {
+            TrySpawnUnit();
+        }
+
+        // For Mobile: Detect touch input (equivalent to left mouse click)
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Ended && isReadyToSpawn)
+            {
+                TrySpawnUnit();
+            }
+        }
+    }
+
+    void TrySpawnUnit()
+    {
+        if (gears.getGearCount() >= gearCostPerSpawn)
+        {
+            SpawnUnitAtHoveredTile();
+            isReadyToSpawn = false;
+        }
+        else
+        {
+            Debug.Log("Not enough gears to spawn a unit!");
         }
     }
 
@@ -55,23 +86,40 @@ public class PlayerKeypressSpawner : MonoBehaviour
         Debug.Log("Last pressed button: " + lastPressedButton);
 
         // Create a new GameObject (a copy of the prefab) without adding it to the scene yet
-        prefabInstance = Instantiate(unitPrefab);
-        FriendlyTrooper trooper = prefabInstance.GetComponent<FriendlyTrooper>();
+        
         switch (lastPressedButton)
         {
             case "UpgradeButton1":
                 // unitPrefab = Resources.Load<GameObject>("Prefabs/FriendlyPrefab");
-                trooper.updateRange(2); 
+                if(gears.getGearCount() >= 20){
+                    prefabInstance = Instantiate(unitPrefab);
+                    FriendlyTrooper trooper = prefabInstance.GetComponent<FriendlyTrooper>();
+                    trooper.updateRange(2); 
+                    gears.UpdateGearCount(-20);
+                    gears.UpdateGearUI();
+                }
                 updateMessage.text = "Range +2";
                 break;
             case "UpgradeButton2":
-                trooper.updateSpeed(1); 
+                if(gears.getGearCount() >= 10){
+                    prefabInstance = Instantiate(unitPrefab);
+                    FriendlyTrooper trooper = prefabInstance.GetComponent<FriendlyTrooper>();
+                    trooper.updateSpeed(1); 
+                    gears.UpdateGearCount(-10);
+                    gears.UpdateGearUI();
+                }
                 updateMessage.text = "Speed +1";
                 break;
             // case "UpgradeButton3":
             //     break;
             case "UpgradeButton4":
-                trooper.updateMaxHp(10);
+                if(gears.getGearCount() >= 20){
+                    prefabInstance = Instantiate(unitPrefab);
+                    FriendlyTrooper trooper = prefabInstance.GetComponent<FriendlyTrooper>();
+                    trooper.updateMaxHp(10);
+                    gears.UpdateGearCount(-20);
+                    gears.UpdateGearUI();
+                }
                 updateMessage.text = "Hp +10";
                 break;
             default:
