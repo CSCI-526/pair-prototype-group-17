@@ -2221,7 +2221,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Gears: loading...'
+  m_Text: 'Gears: Loading...'
 --- !u!222 &1130968840
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2362,7 +2362,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 6562534539730440374, guid: c7ea33874d4a94161b69e4fb3b099862, type: 3}
   firePoint: {fileID: 1911618159}
   fireRate: 2
-  range: 12
+  range: 15
   fireCountdown: 0.2
 --- !u!212 &1189109039
 SpriteRenderer:
@@ -4176,7 +4176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5f1e88e8f0dc412287695580f44e6ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 500
+  maxHp: 1000
   hp: 0
   isFriendly: 1
 --- !u!50 &2087402434
@@ -4417,6 +4417,10 @@ PrefabInstance:
     - target: {fileID: 6405954834919757528, guid: 409eea842565a4ff48ac21039ac0ccd2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819533473340568778, guid: 409eea842565a4ff48ac21039ac0ccd2, type: 3}
+      propertyPath: range
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -11,6 +11,7 @@ public class Gears : MonoBehaviour
 
     void Start(){
         gearText = GameObject.Find("GearCountText").GetComponent<Text>();
+        UpdateGearUI();
     }
 
     public int getGearCostPerSpawn(){

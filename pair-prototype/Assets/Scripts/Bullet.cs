@@ -20,6 +20,7 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject);  // If the target disappears, destroy the bullet
             return;
         }
+        Debug.Log(transform.position);
 
         // Bullet moves towards the target
         Vector2 direction = (target.position - transform.position).normalized;

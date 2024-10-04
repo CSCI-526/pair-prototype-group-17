@@ -99,8 +99,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHp: 100
+  hp: 0
   isFriendly: 0
-  moveSpeed: 3
+  moveSpeed: 5
   bulletPrefab: {fileID: 6562534539730440374, guid: c7ea33874d4a94161b69e4fb3b099862, type: 3}
   firePoint: {fileID: 7168749577140336839}
   fireRate: 0.3
